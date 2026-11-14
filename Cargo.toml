@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = ["crates/sese", "crates/sese-celaut", "crates/sese-quic", "crates/sese-bench"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-only"
+repository = "https://github.com/celaut-project/service-serialization"
+rust-version = "1.88"
+
+[workspace.dependencies]
+blake3 = "1"
+memmap2 = "0.9"
+prost = "0.14"
+prost-reflect = "0.16"
+protox = "0.9"
+quinn = "0.11"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+rcgen = "0.13"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-util", "time", "sync", "fs"] }
+zstd = "0.13"
+proptest = "1"
+hex = "0.4"
+sha3 = "0.10"
+bee-rpc = { git = "https://github.com/bee-rpc-protocol/bee-rpc-over-grpc-rs", tag = "v0.4.2" }
+
+[profile.release]
+debug = 1

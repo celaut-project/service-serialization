@@ -1,0 +1,3 @@
+/target
+*.sese
+!crates/sese/tests/vectors/*.sese

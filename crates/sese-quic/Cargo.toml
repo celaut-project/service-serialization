@@ -1,0 +1,22 @@
+[package]
+name = "sese-quic"
+description = "SeSe over QUIC: the footer first as a header, block negotiation, only the missing blocks, zstd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+sese = { path = "../sese" }
+blake3 = { workspace = true }
+quinn = { workspace = true }
+rustls = { workspace = true }
+rcgen = { workspace = true }
+tokio = { workspace = true }
+zstd = { workspace = true }
+bytes = "1"
+
+[dev-dependencies]
+tokio = { workspace = true }
+sese = { path = "../sese" }
