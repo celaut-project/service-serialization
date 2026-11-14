@@ -166,3 +166,30 @@ pub fn get_field(mmap: &Mmap, offset: u64, length: u64) -> &[u8] {
 
 Transmission over QUIC uses the footer as a header.  Negotiates blocks before transmission to consider what parts of the buffer are not needed to be transmited. In case there are no blocks, can transmit using compression ZStandard.
 
+
+
+
+=====
+
+
+
+# Implementation (this repository)
+
+A Rust implementation of the concept above, a QUIC transport, and a benchmark against the
+Bee-RPC/gRPC transport that Celaut uses today. The exact format is in [`SPEC.md`](SPEC.md):
+it lists every point where this README is open and the choice that the code makes.
+
+| Crate | What it is |
+|---|---|
+| [`crates/sese`](crates/sese) | The Flat-Footer format: a zero-copy reader (over a `&[u8]` or an mmap) that checks every bound and never panics, a deterministic writer, BLAKE3 ids, fixed-size blocks, golden vectors |
+| [`crates/sese-celaut`](crates/sese-celaut) | proto `Service` ⇄ SeSe, driven by the descriptor of `celaut.proto`; the filesystem becomes a nested tree whose large files are block-aligned; the way back gives the same proto bytes, so the Celaut id stays |
+| [`crates/sese-quic`](crates/sese-quic) | SeSe over QUIC (quinn): the root footer and the block hashes first as a header, the receiver answers with the blocks it lacks, the sender sends only those (zstd stream when the receiver has none), the receiver checks every block and the id, resume after a cut |
+| [`crates/sese-bench`](crates/sese-bench) | Tools (`pkgtool`, `bee-inspect`, `explore`) and the benchmark binaries; `bench/run.sh` |
+
+```sh
+cargo test --workspace            # unit, property (proptest) and QUIC loopback tests
+cargo run -p sese-bench --release --bin pkgtool -- extract pkg.celaut.bee pkg/
+cargo run -p sese-bench --release --bin pkgtool -- tosese pkg/ pkg.sese
+```
+
+Results on a real Celaut service (echo-chat, 138 MB): see [`BENCHMARK.md`](BENCHMARK.md).
