@@ -245,11 +245,12 @@ impl<'a> List<'a> {
 
     /// The elements as u64. Checks the whole extent first.
     pub fn u64s(&self) -> Result<impl ExactSizeIterator<Item = u64> + 'a, Error> {
-        Ok(self.inline(8)?.chunks_exact(8).map(|c| {
-            let mut a = [0u8; 8];
-            a.copy_from_slice(c);
-            u64::from_le_bytes(a)
-        }))
+        Ok(self
+            .inline(8)?
+            .as_chunks::<8>()
+            .0
+            .iter()
+            .map(|c| u64::from_le_bytes(*c)))
     }
 
     /// The elements as bool. Checks the extent and every byte first.

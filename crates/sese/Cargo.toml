@@ -4,6 +4,8 @@ description = "SeSe (service serialization): the Flat-Footer format, a zero-copy
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
 
 [features]
 default = ["mmap"]

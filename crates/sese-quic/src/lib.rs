@@ -187,14 +187,7 @@ impl Header {
         }
         let mut raw = vec![0u8; (count as usize) * 32];
         read_exact(recv, &mut raw).await?;
-        let hashes = raw
-            .chunks_exact(32)
-            .map(|c| {
-                let mut h = [0u8; 32];
-                h.copy_from_slice(c);
-                h
-            })
-            .collect();
+        let hashes = raw.as_chunks::<32>().0.to_vec();
         Ok(Header {
             id,
             file_len,
@@ -208,8 +201,10 @@ impl Header {
     pub fn root_offsets(&self) -> Vec<u64> {
         let n = self.tail.len().saturating_sub(16);
         self.tail[..n]
-            .chunks_exact(8)
-            .map(|c| u64::from_le_bytes(c.try_into().unwrap_or([0xff; 8])))
+            .as_chunks::<8>()
+            .0
+            .iter()
+            .map(|c| u64::from_le_bytes(*c))
             .collect()
     }
 
