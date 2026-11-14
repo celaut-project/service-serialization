@@ -1,0 +1,18 @@
+[package]
+name = "sese"
+description = "SeSe (service serialization): the Flat-Footer format, a zero-copy reader, a deterministic writer, BLAKE3 ids and fixed-size blocks"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+default = ["mmap"]
+mmap = ["dep:memmap2"]
+
+[dependencies]
+blake3 = { workspace = true }
+memmap2 = { workspace = true, optional = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+hex = { workspace = true }
