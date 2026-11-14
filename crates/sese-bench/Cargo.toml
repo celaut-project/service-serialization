@@ -1,0 +1,25 @@
+[package]
+name = "sese-bench"
+description = "Tools and benchmarks: SeSe over QUIC against Bee-RPC over gRPC"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+sese = { path = "../sese" }
+sese-celaut = { path = "../sese-celaut" }
+sese-quic = { path = "../sese-quic" }
+bee-rpc = { workspace = true, features = ["grpc"] }
+prost = { workspace = true }
+prost-reflect = { workspace = true }
+sha3 = { workspace = true }
+hex = { workspace = true }
+blake3 = { workspace = true }
+zstd = { workspace = true }
+tokio = { workspace = true }
+tonic = "0.14"
+tonic-prost = "0.14"
+tokio-stream = { version = "0.1", features = ["net"] }
+rustls = { workspace = true }
+quinn = { workspace = true }
