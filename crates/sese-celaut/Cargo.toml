@@ -1,0 +1,21 @@
+[package]
+name = "sese-celaut"
+description = "The Celaut Service in SeSe: proto Service <-> SeSe, the filesystem as content-addressed blocks"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+sese = { path = "../sese" }
+prost = { workspace = true }
+prost-reflect = { workspace = true }
+
+[build-dependencies]
+protox = { workspace = true }
+prost = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+hex = { workspace = true }
+prost-reflect = { workspace = true, features = ["text-format"] }
+sha3 = { workspace = true }
